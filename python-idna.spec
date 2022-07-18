@@ -1,0 +1,93 @@
+%global debug_package %{nil}
+
+Name: python-idna
+Epoch: 100
+Version: 3.2
+Release: 1%{?dist}
+BuildArch: noarch
+Summary: Internationalized Domain Names in Applications (IDNA)
+License: BSD-3-Clause
+URL: https://github.com/kjd/idna/tags
+Source0: %{name}_%{version}.orig.tar.gz
+BuildRequires: fdupes
+BuildRequires: python-rpm-macros
+BuildRequires: python3-devel
+BuildRequires: python3-setuptools
+
+%description
+Support for the Internationalised Domain Names in Applications (IDNA)
+protocol as specified in RFC 5891. This is the latest version of the
+protocol and is sometimes referred to as “IDNA 2008”. This library also
+provides support for Unicode Technical Standard 46, Unicode IDNA
+Compatibility Processing. This acts as a suitable replacement for the
+“encodings.idna” module that comes with the Python standard library,
+but which only supports the old, deprecated IDNA specification (RFC
+3490).
+
+%prep
+%autosetup -T -c -n %{name}_%{version}-%{release}
+tar -zx -f %{S:0} --strip-components=1 -C .
+
+%build
+%py3_build
+
+%install
+%py3_install
+find %{buildroot}%{python3_sitelib} -type f -name '*.pyc' -exec rm -rf {} \;
+fdupes -qnrps %{buildroot}%{python3_sitelib}
+
+%check
+
+%if 0%{?suse_version} > 1500 || 0%{?centos_version} == 700
+%package -n python%{python3_version_nodots}-idna
+Summary: Internationalized Domain Names in Applications (IDNA)
+Requires: python3
+Provides: python3-idna = %{epoch}:%{version}-%{release}
+Provides: python3dist(idna) = %{epoch}:%{version}-%{release}
+Provides: python%{python3_version}-idna = %{epoch}:%{version}-%{release}
+Provides: python%{python3_version}dist(idna) = %{epoch}:%{version}-%{release}
+Provides: python%{python3_version_nodots}-idna = %{epoch}:%{version}-%{release}
+Provides: python%{python3_version_nodots}dist(idna) = %{epoch}:%{version}-%{release}
+
+%description -n python%{python3_version_nodots}-idna
+Support for the Internationalised Domain Names in Applications (IDNA)
+protocol as specified in RFC 5891. This is the latest version of the
+protocol and is sometimes referred to as “IDNA 2008”. This library also
+provides support for Unicode Technical Standard 46, Unicode IDNA
+Compatibility Processing. This acts as a suitable replacement for the
+“encodings.idna” module that comes with the Python standard library,
+but which only supports the old, deprecated IDNA specification (RFC
+3490).
+
+%files -n python%{python3_version_nodots}-idna
+%license LICENSE.md
+%{python3_sitelib}/*
+%endif
+
+%if !(0%{?suse_version} > 1500) && !(0%{?centos_version} == 700)
+%package -n python3-idna
+Summary: Internationalized Domain Names in Applications (IDNA)
+Requires: python3
+Provides: python3-idna = %{epoch}:%{version}-%{release}
+Provides: python3dist(idna) = %{epoch}:%{version}-%{release}
+Provides: python%{python3_version}-idna = %{epoch}:%{version}-%{release}
+Provides: python%{python3_version}dist(idna) = %{epoch}:%{version}-%{release}
+Provides: python%{python3_version_nodots}-idna = %{epoch}:%{version}-%{release}
+Provides: python%{python3_version_nodots}dist(idna) = %{epoch}:%{version}-%{release}
+
+%description -n python3-idna
+Support for the Internationalised Domain Names in Applications (IDNA)
+protocol as specified in RFC 5891. This is the latest version of the
+protocol and is sometimes referred to as “IDNA 2008”. This library also
+provides support for Unicode Technical Standard 46, Unicode IDNA
+Compatibility Processing. This acts as a suitable replacement for the
+“encodings.idna” module that comes with the Python standard library,
+but which only supports the old, deprecated IDNA specification (RFC
+3490).
+
+%files -n python3-idna
+%license LICENSE.md
+%{python3_sitelib}/*
+%endif
+
+%changelog
