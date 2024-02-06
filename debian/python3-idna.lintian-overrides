@@ -1,0 +1,4 @@
+python3-idna: copyright-without-copyright-notice
+python3-idna: initial-upload-closes-no-bugs
+python3-idna: no-manual-page
+python3-idna: zero-byte-file-in-doc-directory
