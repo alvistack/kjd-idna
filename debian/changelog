@@ -1,0 +1,5 @@
+python-idna (100:3.19-1) UNRELEASED; urgency=medium
+
+  * https://github.com/kjd/idna/releases/tag/v3.19
+
+ -- Wong Hoi Sing Edison <hswong3i@pantarei-design.com>  Tue, 18 Aug 2026 22:44:12 +0800
